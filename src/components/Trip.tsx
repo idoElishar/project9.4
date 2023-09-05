@@ -36,7 +36,6 @@ function Trip() {
         if (tempUsers !== null) {
             setUsers(tempUsers);
         } else {
-    
         }
     }
 
@@ -50,7 +49,7 @@ function Trip() {
         <div>
             {users ? (
                 <>
-                    <h2>Name: {users.name}</h2>
+                    <h2> {users.name}</h2>
                     <p>Destination: {users.destination}</p>
                     <p>Start Date: {users.startDate}</p>
                     <p>End Date: {users.endDate}</p>

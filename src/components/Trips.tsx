@@ -46,10 +46,9 @@ function Trips() {
     return (
         <div>
             <div>
-
                 <ol>
-                    
                         {users.map((user) => (
+                            <div>
                             <Link to={`/Trip/${user.id}`}> <button >
                             <li key={user.id}>
                                 <p>Name: {user.name}</p>
@@ -60,6 +59,8 @@ function Trips() {
                             </li>
                             </button>
                             </Link>
+                            <Link to={`/Delete/${user.id}`}><button> click to delete</button></Link>
+                            </div>
                         ))}
                     
                 </ol>
