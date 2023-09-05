@@ -1,0 +1,10 @@
+li{
+  border: 2px solid blue;
+  width: 200px;
+  height: 300px;
+  margin: 16px;
+  padding: 8px;
+}
+p{
+  margin: 8px;
+}
