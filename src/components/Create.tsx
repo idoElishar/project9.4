@@ -22,7 +22,7 @@ export default function NewTrip() {
             const response = await axios.post("http://localhost:3000/api/trips", formData,
             {
                 headers: {
-                    authorization: 'test-token'
+                    authorization: (localStorage.getItem('token'))
                 },
             });
             console.log(response.data)

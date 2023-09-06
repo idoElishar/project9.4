@@ -44,22 +44,34 @@ function Trips() {
 
     const handleDelete = async (tripId: number) => {
         try {
-            // ה headers שאתה רוצה לשלוח
+            const authToken = localStorage.getItem('token') || '';
             const headers = {
-                Authorization: 'test-token', // המפתח/טוקן שאתה רוצה לשלוח
-                'Content-Type': 'application/json', // כותרת סוג התוכן שנשלח
+                Authorization: authToken, 
+                'Content-Type': 'application/json', 
             };
 
-            // Send a DELETE request to the server to delete the trip
             await fetch(`http://localhost:3000/api/trips/${tripId}`, {
                 method: 'DELETE',
-                headers: headers, // מוסיף את ה headers לבקשה
-            });
+                headers: headers, 
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        console.error('אנא התחבר או הרשם, שגיאה במהלך הבקשה:', response.status);
+                    } else {
+                        setUsers((prevTrips) =>
+                            prevTrips.filter((trip) => trip.id !== String(tripId))
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error('שגיאה לא מצופה:', error);
+                });
 
-            // Remove the deleted trip from the state
-            setUsers((prevTrips) =>
-                prevTrips.filter((trip) => trip.id !== String(tripId))
-            );
+
+
+
+
+
         } catch (error) {
             console.error('Error deleting trip:', error);
         }
@@ -83,7 +95,7 @@ function Trips() {
                             </button>
                             </Link>
                             <button onClick={() => handleDelete(Number(user.id))}>Click to delete</button>
-                            <Link to={`/Trip/update/${user.id}`}><button>click to update Trip</button></Link>
+                            <Link to={`/Trips/update/${user.id}`}><button>click to update Trip</button></Link>
                         </div>
                     ))}
 

@@ -134,7 +134,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 <button type="submit">Update Trip</button>
             </form>
 
-            <Link to={`/Trip/${id}`}>
+            <Link to={`/Trips/${id}`}>
                 <button style={{ background: "yellow" }}>Back to Trip Details</button>
             </Link>
         </div>

@@ -24,6 +24,10 @@ function Login({}: Props) {
                 },
             });
             console.log(response.data)
+            console.log(response.data.responseObj.token);
+            localStorage.setItem('token', `${response.data.responseObj.token}`);
+            console.log((localStorage.getItem('token')));
+            
         } catch (error) {
             console.error("Error logging in:", error);
         }

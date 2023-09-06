@@ -11,7 +11,9 @@ function Home() {
     }
 
     return (
+        
         <div>
+            <h2>welcome to project </h2>
             <Link to="/Trips/"><button>show trips</button></Link>
             <Link to="api/auth/register"><button>Register</button></Link>
             <Link to="api/auth/login"><button>Login</button></Link>
