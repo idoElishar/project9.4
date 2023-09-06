@@ -6,6 +6,7 @@ import Trip from './components/Trip';
 import Delete from './components/Delete';
 import Create from './components/Create';
 import UpdateTrip from './components/UpdateTrip';
+import UserRegistration from './components/UserRegistration';
 function Ruoter() {
     return (
         <div>
@@ -18,6 +19,7 @@ function Ruoter() {
                     <Route path="/Delete/:id" element={<Delete />} />
                     <Route path="*" element={<Home />} />
                     <Route path="/Create" element={<Create />} />
+                    <Route path="/register" element={< UserRegistration/>} />
                 </Routes>
             </Router>
         </div>

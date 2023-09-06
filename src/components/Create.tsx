@@ -33,7 +33,6 @@ export default function NewTrip() {
     return (
         <div>
             <h2>Add a New Trip</h2>
-            
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Name:</label>
@@ -116,9 +115,6 @@ export default function NewTrip() {
                 </div>
                 <button type="submit">Add Trip</button>
             </form>
-            <Link to="/Trips">
-            <button style={{ background: "yellow" }}>click to back All trips</button>
-            </Link>
         </div>
     );
 }
