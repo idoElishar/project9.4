@@ -1,46 +1,63 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from 'react-router-dom';
 import axios from "axios";
-import {Link} from 'react-router-dom'
-export default function NewTrip() {
-    const [formData, setFormData] = useState({
+
+function UpdateTrip() {
+    const { id } = useParams();
+    const [editedTrip, setEditedTrip] = useState({
         name: "",
         destination: "",
         startDate: "",
         endDate: "",
         description: "",
-        price: "",
+        price: 0, 
         image: "",
-        activities: [],
+        activities: "",
     });
-    const handleChange = (w: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = w.target;
-        setFormData({ ...formData, [name]: value });
-    };
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post("http://localhost:3000/api/trips", formData,
-            {
-                headers: {
-                    authorization: 'test-token'
-                },
+
+    useEffect(() => {
+        axios.get(`http://localhost:3000/api/trips/${id}`)
+            .then(response => {
+                setEditedTrip(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching trip data:", error);
             });
-            console.log(response.data)
-        } catch (error) {
-            console.error("Error adding trip:", error);
-        }
+    }, [id]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setEditedTrip({ ...editedTrip, [name]: value });
     };
+
+    
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+        const response = await axios.put(`http://localhost:3000/api/trips/${id}`, editedTrip, {
+            headers: {
+                authorization: 'test-token'
+            },
+        });
+        
+        console.log("Trip updated:", response.data);
+    } catch (error) {
+        console.error("Error updating trip:", error);
+    }
+};
+
     return (
         <div>
-            <h2>Add a New Trip</h2>
-            
+            <h2>Edit Trip</h2>
+
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Name:</label>
                     <input
                         type="text"
                         name="name"
-                        value={formData.name}
+                        value={editedTrip.name}
                         onChange={handleChange}
                         required
                     />
@@ -50,7 +67,7 @@ export default function NewTrip() {
                     <input
                         type="text"
                         name="destination"
-                        value={formData.destination}
+                        value={editedTrip.destination}
                         onChange={handleChange}
                         required
                     />
@@ -60,7 +77,7 @@ export default function NewTrip() {
                     <input
                         type="date"
                         name="startDate"
-                        value={formData.startDate}
+                        value={editedTrip.startDate}
                         onChange={handleChange}
                         required
                     />
@@ -70,7 +87,7 @@ export default function NewTrip() {
                     <input
                         type="date"
                         name="endDate"
-                        value={formData.endDate}
+                        value={editedTrip.endDate}
                         onChange={handleChange}
                         required
                     />
@@ -79,7 +96,7 @@ export default function NewTrip() {
                     <label>Description:</label>
                     <textarea
                         name="description"
-                        value={formData.description}
+                        value={editedTrip.description}
                         onChange={handleChange}
                         required
                     ></textarea>
@@ -89,7 +106,7 @@ export default function NewTrip() {
                     <input
                         type="number"
                         name="price"
-                        value={formData.price}
+                        value={editedTrip.price}
                         onChange={handleChange}
                         required
                     />
@@ -99,7 +116,7 @@ export default function NewTrip() {
                     <input
                         type="text"
                         name="image"
-                        value={formData.image}
+                        value={editedTrip.image}
                         onChange={handleChange}
                         required
                     />
@@ -109,16 +126,19 @@ export default function NewTrip() {
                     <input
                         type="text"
                         name="activities"
-                        value={formData.activities}
+                        value={editedTrip.activities}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <button type="submit">Add Trip</button>
+                <button type="submit">Update Trip</button>
             </form>
-            <Link to="/Trips">
-            <button style={{ background: "yellow" }}>click to back All trips</button>
+
+            <Link to={`/Trip/${id}`}>
+                <button style={{ background: "yellow" }}>Back to Trip Details</button>
             </Link>
         </div>
-    );
+    )
 }
+
+export default UpdateTrip;

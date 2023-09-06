@@ -5,6 +5,7 @@ interface UserData {
     id: string;
     name: string;
     destination: string;
+    price: string,
     startDate: string;
     endDate: string;
     image: string;

@@ -1,8 +1,8 @@
-import { Link,useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import React, { createContext, useEffect, useState } from 'react';
 import Create from './Create';
-import Trip from './trip';
-
+// import Trip from './trip';
+import UpdateTrip from './UpdateTrip';
 interface UserData {
     id: string;
     name: string;
@@ -42,27 +42,51 @@ function Trips() {
         }
     }
 
+    const handleDelete = async (tripId: number) => {
+        try {
+            // ה headers שאתה רוצה לשלוח
+            const headers = {
+                Authorization: 'test-token', // המפתח/טוקן שאתה רוצה לשלוח
+                'Content-Type': 'application/json', // כותרת סוג התוכן שנשלח
+            };
+
+            // Send a DELETE request to the server to delete the trip
+            await fetch(`http://localhost:3000/api/trips/${tripId}`, {
+                method: 'DELETE',
+                headers: headers, // מוסיף את ה headers לבקשה
+            });
+
+            // Remove the deleted trip from the state
+            setUsers((prevTrips) =>
+                prevTrips.filter((trip) => trip.id !== String(tripId))
+            );
+        } catch (error) {
+            console.error('Error deleting trip:', error);
+        }
+    };
 
     return (
         <div>
             <div>
+                <Link to={"/Create"}><button>click to add Trip</button></Link>
                 <ol>
-                        {users.map((user) => (
-                            <div>
+                    {users.map((user) => (
+                        <div>
                             <Link to={`/Trip/${user.id}`}> <button >
-                            <li key={user.id}>
-                                <p>Name: {user.name}</p>
-                                <p>Destination: {user.destination}</p>
-                                <p>Start Date: {user.startDate}</p>
-                                <p>End Date: {user.endDate}</p>
-                                <img src={user.image} alt={user.name} width={100} />
-                            </li>
+                                <li key={user.id}>
+                                    <p>Name: {user.name}</p>
+                                    <p>Destination: {user.destination}</p>
+                                    <p>Start Date: {user.startDate}</p>
+                                    <p>End Date: {user.endDate}</p>
+                                    <img src={user.image} alt={user.name} width={100} />
+                                </li>
                             </button>
                             </Link>
-                            <Link to={`/Delete/${user.id}`}><button> click to delete</button></Link>
-                            </div>
-                        ))}
-                    
+                            <button onClick={() => handleDelete(Number(user.id))}>Click to delete</button>
+                            <Link to={`/Trip/update/${user.id}`}><button>click to update Trip</button></Link>
+                        </div>
+                    ))}
+
                 </ol>
 
             </div>
