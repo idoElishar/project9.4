@@ -1,36 +1,40 @@
 import { useState } from "react";
 import axios from "axios";
 
-function UserRegistration() {
+type Props = {}
+
+function Login({}: Props) {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
         role: "admin"
     });
-    const handleChange = (w: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = w.target;
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/api/auth/register", formData,
-                {
-                    headers: {
-                        authorization: 'test-token'
-                    },
-                });
+            const response = await axios.post("http://localhost:3000/api/auth/login", formData, {
+                headers: {
+                    authorization: 'test-token'
+                },
+            });
             console.log(response.data)
         } catch (error) {
-            console.error("Error adding trip:", error);
+            console.error("Error logging in:", error);
         }
     };
+
     return (
         <div>
-            <h2>Register </h2>
+            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>mail:</label>
+                    <label>Email:</label>
                     <input
                         type="text"
                         name="email"
@@ -40,29 +44,19 @@ function UserRegistration() {
                     />
                 </div>
                 <div>
-                    <label>password:</label>
+                    <label>Password:</label>
                     <input
-                        type="text"
+                        type="password"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div>
-                    <label>Destination:</label>
-                    <input
-                        type="text"
-                        name="role"
-                        value={formData.role}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <button type="submit">click to Register</button>
+                <button type="submit">Login</button>
             </form>
         </div>
     )
 }
-export default UserRegistration;
+
+export default Login;

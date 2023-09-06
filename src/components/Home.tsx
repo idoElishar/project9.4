@@ -13,7 +13,8 @@ function Home() {
     return (
         <div>
             <Link to="/Trips/"><button>show trips</button></Link>
-            <Link to="/register"><button>Register</button></Link>
+            <Link to="api/auth/register"><button>Register</button></Link>
+            <Link to="api/auth/login"><button>Login</button></Link>
         </div>
     );
 }
